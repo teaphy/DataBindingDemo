@@ -1,19 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<layout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".MainActivity">
+	xmlns:bind="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools" >
 
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Hello World!"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toTopOf="parent"/>
+	<data>
 
-</android.support.constraint.ConstraintLayout>
+		<variable
+			name="handlers"
+			type="com.teaphy.handle.UserHandle"/>
+
+		<variable
+			name="mainViews"
+			type="com.teaphy.view.MainView"/>
+
+		<variable
+			name="user"
+			type="com.teaphy.bean.UserBean"	/>
+
+	</data>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:gravity="center_horizontal"
+		tools:context=".ui.MainActivity">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="@{handlers::onClickName}"
+			android:textSize="18sp"
+			android:text="@{user.name}"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@{user.age}"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@{user.sex ? @string/sex_man : @string/sex_woman}"/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="点击"
+			android:onClick="@{(view) -> handlers.onClickUser(view, user)}"
+			/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="更新性别"
+			android:onClick="@{() -> handlers.updateUserSex(user)}"
+			/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="更新年龄"
+			android:onClick="@{() -> handlers.updateUserAge(user)}"
+			/>
+
+		<include
+			layout="@layout/layout_user"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/inUser"
+			bind:user="@{user}"
+			/>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAllCaps="false"
+			android:onClick="@{mainViews::startNewsActivity}"
+			android:text="News"/>
+	</LinearLayout>
+</layout>
